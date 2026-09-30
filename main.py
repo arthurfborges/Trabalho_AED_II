@@ -34,7 +34,3 @@ def localizar_planeta(name_searched):
     else:
         print("404")
         return None
-
-
-localizar_planeta(input("digite o nome do planeta em ingles: "))
-    
