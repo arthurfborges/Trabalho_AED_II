@@ -55,12 +55,26 @@ def missao(t):
         print(f" - {c.corpo.nome}: {c.distancia:,.0f} km | potencial: {c.potencial_cientifico:.2f} | razao: {c.razao():.3e}")
     print(f"{len(escolhidos)} destinos | Custo total: {custo:,.0f} km | Sobrou: {orc - custo:,.0f} km")
 
+def comparar(t):
+    a = t.buscar(input("Primeiro corpo: ").strip().lower())
+    b = t.buscar(input("Segundo corpo: ").strip().lower())
+    if a is None or b is None:
+        print("Corpo nao encontrado.")
+        return
+    a, b = a.valor, b.valor
+    print(f"{'':16}{a.nome:>20}{b.nome:>20}")
+    for rotulo, attr in [("Tipo", "tipo"), ("Massa (kg)", "massa"),
+                         ("Gravidade", "gravidade"), ("Raio (km)", "raio"),
+                         ("Dist. orbital", "dist_orbital"),
+                         ("Temp. media (K)", "temp_media"), ("Luas", "num_luas")]:
+        print(f"{rotulo:16}{str(getattr(a, attr)):>20}{str(getattr(b, attr)):>20}")
+
 def main():
     t = carregar()
     metricas(t)
-    acoes = {"1": consultar, "2": pesquisar, "3": listar, "4": missao}
+    acoes = {"1": consultar, "2": pesquisar, "3": listar, "4": missao, "6": comparar}
     while True:
-        print("\n1-Consultar  2-Pesquisar por nome  3-Listar/filtrar  4-Planejar missao  5-Metricas da hash  0-Sair")
+        print("\n1-Consultar  2-Pesquisar por nome  3-Listar/filtrar  4-Planejar missao  5-Metricas da hash  6-Comparar corpos  0-Sair")
         op = input("> ").strip()
         if op == "0":
             break
