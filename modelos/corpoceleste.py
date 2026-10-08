@@ -1,6 +1,6 @@
 class CorpoCeleste:
     def __init__(self, id, nome, tipo, eh_planeta, massa,
-                 gravidade, raio, dist_orbital, ao_redor_de, temp_media):
+                 gravidade, raio, dist_orbital, ao_redor_de, temp_media, num_luas):
         self.id = id
         self.nome = nome
         self.tipo = tipo
@@ -11,6 +11,9 @@ class CorpoCeleste:
         self.dist_orbital = dist_orbital
         self.ao_redor_de = ao_redor_de
         self.temp_media = temp_media
+        self.num_luas = num_luas
+
+    
 
     @staticmethod
     def from_api(d):
@@ -31,6 +34,7 @@ class CorpoCeleste:
             dist_orbital=d.get("semimajorAxis"),
             ao_redor_de=orbita["planet"] if orbita else None,
             temp_media=d.get("avgTemp"),
+            num_luas=len(d.get("moons") or []),
         )
 
     def __str__(self):

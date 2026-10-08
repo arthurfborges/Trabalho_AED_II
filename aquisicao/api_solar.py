@@ -3,6 +3,7 @@ import os
 import requests
 
 URL = "https://api.le-systeme-solaire.net/rest/bodies"
+CAMINHO_JSON = os.path.join(os.path.dirname(__file__), "bodies.json")
 
 
 def baixar_corpos():
@@ -14,13 +15,27 @@ def baixar_corpos():
 
     return resposta.json()["bodies"]
 
-
-if __name__ == "__main__":
-    corpos = baixar_corpos()
-    print("Quantidade de corpos:", len(corpos))
-
-    with open("bodies.json", "w", encoding="utf-8") as f:
+def salvar_corpos(corpos):
+    with open(CAMINHO_JSON, "w", encoding="utf-8") as f:
         json.dump(corpos, f, ensure_ascii=False, indent=2)
 
-    for corpo in corpos:
-        print(corpo["bodyType"], "-", corpo["name"])
+
+def carregar_corpos_arquivo():
+    with open(CAMINHO_JSON, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def obter_corpos():
+    try:
+        corpos = baixar_corpos()
+        salvar_corpos(corpos)
+        print("Dados obtidos da API.")
+    except (requests.RequestException, KeyError) as erro:
+        print(f"Falha ao acessar a API ({erro}). Usando bodies.json local.")
+        corpos = carregar_corpos_arquivo()
+    return corpos
+
+
+if __name__ == "__main__":
+    corpos = obter_corpos()
+    print("Quantidade de corpos:", len(corpos))
