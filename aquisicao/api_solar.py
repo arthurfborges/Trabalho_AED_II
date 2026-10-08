@@ -2,6 +2,12 @@ import json
 import os
 import requests
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # sem python-dotenv, usa só as variáveis de ambiente do sistema
+
 URL = "https://api.le-systeme-solaire.net/rest/bodies"
 CAMINHO_JSON = os.path.join(os.path.dirname(__file__), "bodies.json")
 

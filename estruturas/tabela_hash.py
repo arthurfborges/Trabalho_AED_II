@@ -1,4 +1,4 @@
-# "valor" deverá ser substituido pelos dados que queremos guardar sobre os corpos celestes
+# "valor" é genérico; no sistema, guarda objetos CorpoCeleste (chave = nome em minúsculo)
 
 def hash_function(str_hash):
     acum = 0
@@ -96,4 +96,10 @@ class tabelahash:
                 self.buckets[i] = atual
                 atual = prox    
 
-
+    def valores(self):
+        # percorre todos os buckets (usado em listagens e filtros)
+        for cabeca in self.buckets:
+            atual = cabeca
+            while atual is not None:
+                yield atual.valor
+                atual = atual.prox
